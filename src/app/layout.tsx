@@ -28,7 +28,7 @@ export default function RootLayout({
         baseTheme: dark,
         variables: {
           colorPrimary: "#f97316",
-          colorBackground: "#1f2937",
+          colorBackground: "#111827",
         },
       }}
     >

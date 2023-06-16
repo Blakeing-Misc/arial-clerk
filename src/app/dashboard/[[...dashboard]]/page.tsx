@@ -9,7 +9,7 @@ export default function Dashboard() {
         <UserProfile
           appearance={{
             elements: {
-              rootBox: "mx-auto h-[70vh]",
+              rootBox: "mx-auto my-16 lg:my-0  lg:h-[70vh]",
             },
           }}
           routing="path"

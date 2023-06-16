@@ -173,7 +173,7 @@ export function SignUpForm() {
           <div className="mt-6 grid grid-cols-2 gap-4">
             <button
               onClick={() => signUpGoogle("oauth_google")}
-              className="flex w-full items-center justify-center gap-3 rounded-md border-gray-300 border px-3 py-1.5 text-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1D9BF0]"
+              className="flex w-full items-center justify-center hover:opacity-80  gap-3 rounded-md border-gray-300 border px-3 py-1.5 text-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1D9BF0]"
             >
               <svg
                 className="h-5 w-5"
