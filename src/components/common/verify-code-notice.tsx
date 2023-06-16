@@ -24,7 +24,7 @@ export function VerifyCodeNotice({
       <span>{emailAddress}</span>
       <br />
       <button
-        className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+        className="font-semibold leading-6 text-orange-600 hover:text-orange-500"
         type="button"
         disabled={resendCodeDisabled}
         onClick={handleResendClick}

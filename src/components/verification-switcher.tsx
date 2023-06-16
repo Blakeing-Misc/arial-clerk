@@ -25,7 +25,7 @@ export function VerificationSwitcher({
       <p className="mt-10 text-center text-sm text-gray-500">
         Not a working?{" "}
         <button
-          className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+          className="font-semibold leading-6 text-orange-600 hover:text-orange-500"
           onClick={() => onSwitchVerificationMethod(alternateFormStep)}
         >
           Try another method

@@ -49,7 +49,7 @@
 //             </button>
 //             <img
 //               className="h-8 w-auto"
-//               src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+//               src="https://tailwindui.com/img/logos/mark.svg?color=orange&shade=600"
 //               alt="Your Company"
 //             />
 //           </div>
@@ -100,7 +100,7 @@
 //                   <span className="sr-only">Your Company</span>
 //                   <img
 //                     className="h-8 w-auto"
-//                     src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+//                     src="https://tailwindui.com/img/logos/mark.svg?color=orange&shade=600"
 //                     alt=""
 //                   />
 //                 </a>
@@ -134,16 +134,16 @@
 //                     href={item.href}
 //                     className={cn(
 //                       item.current
-//                         ? "bg-gray-50 text-indigo-600"
-//                         : "text-gray-700 hover:text-indigo-600 hover:bg-gray-50",
+//                         ? "bg-gray-50 text-orange-600"
+//                         : "text-gray-700 hover:text-orange-600 hover:bg-gray-50",
 //                       "group flex gap-x-3 rounded-md py-2 pl-2 pr-3 text-sm leading-6 font-semibold"
 //                     )}
 //                   >
 //                     <item.icon
 //                       className={cn(
 //                         item.current
-//                           ? "text-indigo-600"
-//                           : "text-gray-400 group-hover:text-indigo-600",
+//                           ? "text-orange-600"
+//                           : "text-gray-400 group-hover:text-orange-600",
 //                         "h-6 w-6 shrink-0"
 //                       )}
 //                       aria-hidden="true"
@@ -176,7 +176,7 @@
 //                     <div className="text-gray-900">Tom Cook</div>
 //                     <button
 //                       type="button"
-//                       className="font-semibold text-indigo-600 hover:text-indigo-500"
+//                       className="font-semibold text-orange-600 hover:text-orange-500"
 //                     >
 //                       Update
 //                     </button>
@@ -190,7 +190,7 @@
 //                     <div className="text-gray-900">tom.cook@example.com</div>
 //                     <button
 //                       type="button"
-//                       className="font-semibold text-indigo-600 hover:text-indigo-500"
+//                       className="font-semibold text-orange-600 hover:text-orange-500"
 //                     >
 //                       Update
 //                     </button>
@@ -204,7 +204,7 @@
 //                     <div className="text-gray-900">Human Resources Manager</div>
 //                     <button
 //                       type="button"
-//                       className="font-semibold text-indigo-600 hover:text-indigo-500"
+//                       className="font-semibold text-orange-600 hover:text-orange-500"
 //                     >
 //                       Update
 //                     </button>
@@ -231,7 +231,7 @@
 //                   </div>
 //                   <button
 //                     type="button"
-//                     className="font-semibold text-indigo-600 hover:text-indigo-500"
+//                     className="font-semibold text-orange-600 hover:text-orange-500"
 //                   >
 //                     Update
 //                   </button>
@@ -242,7 +242,7 @@
 //                   </div>
 //                   <button
 //                     type="button"
-//                     className="font-semibold text-indigo-600 hover:text-indigo-500"
+//                     className="font-semibold text-orange-600 hover:text-orange-500"
 //                   >
 //                     Update
 //                   </button>
@@ -252,7 +252,7 @@
 //               <div className="flex border-t border-gray-100 pt-6">
 //                 <button
 //                   type="button"
-//                   className="text-sm font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+//                   className="text-sm font-semibold leading-6 text-orange-600 hover:text-orange-500"
 //                 >
 //                   <span aria-hidden="true">+</span> Add another bank
 //                 </button>
@@ -275,7 +275,7 @@
 //                   <div className="font-medium text-gray-900">QuickBooks</div>
 //                   <button
 //                     type="button"
-//                     className="font-semibold text-indigo-600 hover:text-indigo-500"
+//                     className="font-semibold text-orange-600 hover:text-orange-500"
 //                   >
 //                     Update
 //                   </button>
@@ -285,7 +285,7 @@
 //               <div className="flex border-t border-gray-100 pt-6">
 //                 <button
 //                   type="button"
-//                   className="text-sm font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+//                   className="text-sm font-semibold leading-6 text-orange-600 hover:text-orange-500"
 //                 >
 //                   <span aria-hidden="true">+</span> Add another application
 //                 </button>
@@ -310,7 +310,7 @@
 //                     <div className="text-gray-900">English</div>
 //                     <button
 //                       type="button"
-//                       className="font-semibold text-indigo-600 hover:text-indigo-500"
+//                       className="font-semibold text-orange-600 hover:text-orange-500"
 //                     >
 //                       Update
 //                     </button>
@@ -324,7 +324,7 @@
 //                     <div className="text-gray-900">DD-MM-YYYY</div>
 //                     <button
 //                       type="button"
-//                       className="font-semibold text-indigo-600 hover:text-indigo-500"
+//                       className="font-semibold text-orange-600 hover:text-orange-500"
 //                     >
 //                       Update
 //                     </button>
@@ -344,9 +344,9 @@
 //                       onChange={setAutomaticTimezoneEnabled}
 //                       className={cn(
 //                         automaticTimezoneEnabled
-//                           ? "bg-indigo-600"
+//                           ? "bg-orange-600"
 //                           : "bg-gray-200",
-//                         "flex w-8 cursor-pointer rounded-full p-px ring-1 ring-inset ring-gray-900/5 transition-colors duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+//                         "flex w-8 cursor-pointer rounded-full p-px ring-1 ring-inset ring-gray-900/5 transition-colors duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
 //                       )}
 //                     >
 //                       <span
