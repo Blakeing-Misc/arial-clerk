@@ -23,12 +23,12 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <html lang="en">
+      <html className="h-full" lang="en">
         <body
           className={cn(
             inter.variable,
 
-            "scroll-smooth font-sans antialiased"
+            "scroll-smooth h-full font-sans antialiased"
           )}
         >
           {children}

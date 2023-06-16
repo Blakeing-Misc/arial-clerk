@@ -98,8 +98,8 @@ export function SignUpForm() {
   };
 
   return (
-    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+    <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <img
           className="mx-auto h-10 w-auto"
           src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
@@ -110,7 +110,7 @@ export function SignUpForm() {
         </h2>
       </div>
 
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
         <div className="bg-white px-6 py-12 shadow sm:rounded-lg sm:px-12">
           {formStep === SignUpFormSteps.FORM && (
             <form
@@ -162,7 +162,7 @@ export function SignUpForm() {
             </div>
             <div className="relative flex justify-center text-sm font-medium leading-6">
               <span className="bg-white px-6 text-gray-900">
-                Or sign up with
+                Or continue with
               </span>
             </div>
           </div>
