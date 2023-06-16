@@ -11,6 +11,7 @@
   "dependencies": {
     "@clerk/clerk-react": "^4.20.0",
     "@clerk/nextjs": "^4.21.1",
+    "@clerk/themes": "^1.7.5",
     "@clerk/types": "^3.42.0",
     "@headlessui/react": "^1.7.15",
     "@heroicons/react": "^2.0.18",

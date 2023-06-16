@@ -3,6 +3,7 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import { cn } from "@/lib/utils";
+import { dark } from "@clerk/themes";
 
 // const inter = Inter({ subsets: ["latin"] , variable: "--font-inter")};
 
@@ -22,12 +23,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider>
+    <ClerkProvider
+      appearance={{
+        baseTheme: dark,
+        variables: {
+          colorPrimary: "#f97316",
+          colorBackground: "#1f2937",
+        },
+      }}
+    >
       <html className="h-full" lang="en">
         <body
           className={cn(
             inter.variable,
-
             "scroll-smooth h-full font-sans antialiased"
           )}
         >
