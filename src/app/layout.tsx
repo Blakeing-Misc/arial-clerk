@@ -2,8 +2,14 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
+import { cn } from "@/lib/utils";
 
-const inter = Inter({ subsets: ["latin"] });
+// const inter = Inter({ subsets: ["latin"] , variable: "--font-inter")};
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
 
 export const metadata = {
   title: "Create Next App",
@@ -18,7 +24,15 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={inter.className}>{children}</body>
+        <body
+          className={cn(
+            inter.variable,
+
+            "scroll-smooth font-sans antialiased"
+          )}
+        >
+          {children}
+        </body>
       </html>
     </ClerkProvider>
   );

@@ -6,6 +6,9 @@ import { VerifyCodeNotice } from "@/components/common/verify-code-notice";
 
 import { APIResponseError, parseError } from "@/lib/errors";
 
+import { Validations } from "@/lib/validators/form-validations";
+import { Input } from "./common/input";
+
 export function SignUpCode({
   emailAddress,
   onDone,
@@ -59,9 +62,19 @@ export function SignUpCode({
         onResendClick={resendSignUpCode}
         emailAddress={emailAddress}
       />
-      <input {...register("code")} autoFocus />
-      <div>
-        <button type="submit">Verify</button>
+      <Input
+        label="Code"
+        {...register("code", Validations.oneTimeCode)}
+        errorText={errors.code?.message}
+        autoFocus
+      />
+      <div className="mt-6">
+        <button
+          type="submit"
+          className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        >
+          Verify
+        </button>
       </div>
     </form>
   );

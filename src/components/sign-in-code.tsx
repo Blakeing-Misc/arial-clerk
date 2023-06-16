@@ -4,6 +4,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 import { VerifyCodeNotice } from "@/components/common/verify-code-notice";
 import { APIResponseError, parseError } from "@/lib/errors";
+import { Input } from "./common/input";
+import { Validations } from "@/lib/validators/form-validations";
 
 type SignInCodeProps = {
   emailAddress: string;
@@ -62,24 +64,21 @@ export function SignInCode({ emailAddress, onDone }: SignInCodeProps) {
   return (
     <form onSubmit={handleSubmit(verifySignInCode)}>
       <VerifyCodeNotice
-        emailAddress={emailAddress}
         onResendClick={resendSignInCode}
+        emailAddress={emailAddress}
+      />
+      <Input
+        label="Code"
+        {...register("code", Validations.oneTimeCode)}
+        errorText={errors.code?.message}
+        autoFocus
       />
       <div className="mt-6">
-        <input
-          type="text"
-          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-          {...register("code")}
-          autoFocus
-        />
-      </div>
-
-      <div className="mt-6 ">
         <button
           type="submit"
           className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
-          <span className="text-sm font-semibold leading-6">Continue</span>
+          Verify
         </button>
       </div>
     </form>

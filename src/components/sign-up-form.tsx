@@ -1,83 +1,86 @@
 "use client";
 
-import React from "react";
-
-import { useSignIn } from "@clerk/nextjs";
+import { useSignUp } from "@clerk/clerk-react";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-
+import React from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { APIResponseError, parseError } from "@/lib/errors";
-import { SignInCode } from "@/components/sign-in-code";
-
-import { SignInPassword } from "@/components/sign-in-password";
-import { VerificationSwitcher } from "@/components/verification-switcher";
-import { EmailCodeFactor, OAuthStrategy } from "@clerk/types";
-
+import { SignUpCode } from "@/components/sign-up-code";
 import { Validations } from "@/lib/validators/form-validations";
-import { Input } from "@/components/common/input";
+import { Input } from "./common/input";
 import Link from "next/link";
+import { OAuthStrategy } from "@clerk/types";
+import { ErrorMessage } from "./common/error-message";
 
-interface SignInInputs {
+interface SignUpInputs {
+  // name: string;
+  // company: string;
   emailAddress: string;
+  // country: string;
+  // phone: string;
+  password: string;
+  clerkError?: string;
 }
 
-export enum SignInFormSteps {
-  EMAIL,
+enum SignUpFormSteps {
+  FORM,
   CODE,
-  PASSWORD,
 }
 
-export function SignInForm() {
-  const { isLoaded, signIn, setSession } = useSignIn();
+export function SignUpForm() {
+  const { isLoaded, setSession, signUp } = useSignUp();
   const router = useRouter();
-  const [firstName, setFirstName] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const [formStep, setFormStep] = React.useState(SignInFormSteps.EMAIL);
+  const [formStep, setFormStep] = React.useState(SignUpFormSteps.FORM);
   const {
     register,
     handleSubmit,
-    setError,
     getValues,
+    setError,
     formState: { errors },
-  } = useForm<SignInInputs>();
+    watch,
+    clearErrors,
+  } = useForm<SignUpInputs>();
 
   if (!isLoaded) {
     return null;
   }
 
-  const signInGoogle = (strategy: OAuthStrategy) => {
-    return signIn.authenticateWithRedirect({
+  const signUpGoogle = (strategy: OAuthStrategy) => {
+    return signUp.authenticateWithRedirect({
       strategy,
       redirectUrl: "/sso-callback",
       redirectUrlComplete: "/",
     });
   };
 
-  const sendSignInCode = async function () {
-    const emailAddress = getValues("emailAddress");
-    const signInAttempt = await signIn.create({
-      identifier: emailAddress,
-    });
-
-    const emailCodeFactor = signInAttempt.supportedFirstFactors.find(
-      (factor) => factor.strategy === "email_code"
-    ) as EmailCodeFactor;
-
-    setFirstName(signInAttempt.userData.firstName || "");
-    await signInAttempt.prepareFirstFactor({
-      strategy: "email_code",
-      emailAddressId: emailCodeFactor.emailAddressId,
-    });
-  };
-
-  const verifyEmail = async function () {
+  const onSubmit: SubmitHandler<SignUpInputs> = async ({
+    emailAddress,
+    password,
+    // name,
+    // phone,
+    // country,
+    // company,
+  }) => {
     try {
       setIsLoading(true);
-      await sendSignInCode();
-      setFormStep(SignInFormSteps.CODE);
+      // const [firstName, lastName] = name.split(/\s+/);
+      const signUpAttempt = await signUp.create({
+        emailAddress,
+        password,
+        // lastName,
+        // firstName,
+        // unsafeMetadata: {
+        //   country,
+        //   company,
+        //   phone,
+        // },
+      });
+      await signUpAttempt.prepareEmailAddressVerification();
+      setFormStep(SignUpFormSteps.CODE);
     } catch (err) {
-      setError("emailAddress", {
+      setError("clerkError", {
         type: "manual",
         message: parseError(err as APIResponseError),
       });
@@ -86,9 +89,12 @@ export function SignInForm() {
     }
   };
 
+  /** Clerk API related errors on change. */
+  watch(() => errors.clerkError && clearErrors("clerkError"));
+
   const signUpComplete = async (createdSessionId: string) => {
-    /** Couldn't the signin be updated and have the createdSessionId ? */
-    setSession(createdSessionId, () => router.push("/"));
+    /** Couldn't the signup be updated and have the createdSessionId ? */
+    await setSession(createdSessionId, () => router.push("/"));
   };
 
   return (
@@ -100,103 +106,53 @@ export function SignInForm() {
           alt="Your Company"
         />
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-          Sign in to your account
+          Sign up for your account
         </h2>
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <div className="bg-white px-6 py-12 shadow sm:rounded-lg sm:px-12">
-          {formStep === SignInFormSteps.EMAIL && (
+          {formStep === SignUpFormSteps.FORM && (
             <form
-              onSubmit={handleSubmit(verifyEmail)}
               className="space-y-6"
-              action="#"
-              method="POST"
+              onSubmit={handleSubmit(onSubmit)}
+              noValidate
             >
-              {/* <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Email address
-                </label>
-                <div className="mt-2">
-                  <input
-                    id="email"
-                    {...register("emailAddress")}
-                    autoFocus
-                    type="email"
-                    autoComplete="email"
-                    required
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  />
-             
-                </div>
-              </div> */}
               <Input
                 label="Email"
+                type="email"
                 {...register("emailAddress", Validations.emailAddress)}
                 errorText={errors.emailAddress?.message}
                 autoFocus
               />
-
-              {/* <div>
-                <div className="flex items-center justify-between">
-                  <label
-                    htmlFor="password"
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    Password
-                  </label>
-                  <div className="text-sm">
-                    <a
-                      href="#"
-                      className="font-semibold text-indigo-600 hover:text-indigo-500"
-                    >
-                      Forgot password?
-                    </a>
-                  </div>
+              <Input
+                {...register("password", Validations.password)}
+                autoFocus={false}
+                label="Password"
+                type="password"
+                errorText={errors.password?.message}
+              />
+              {errors.clerkError?.message && (
+                <div>
+                  <ErrorMessage message={errors.clerkError.message} />
                 </div>
-                <div className="mt-2">
-                  <input
-                    id="password"
-                    name="password"
-                    type="password"
-                    autoComplete="current-password"
-                    required
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  />
-                </div>
-              </div> */}
-
+              )}
               <div>
                 <button
                   type="submit"
                   className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
-                  Sign in
+                  Sign up
                 </button>
               </div>
             </form>
           )}
-
-          {formStep === SignInFormSteps.CODE && (
-            <SignInCode
-              onDone={signUpComplete}
+          {formStep === SignUpFormSteps.CODE && (
+            <SignUpCode
               emailAddress={getValues("emailAddress")}
+              onDone={signUpComplete}
             />
           )}
-          {formStep === SignInFormSteps.PASSWORD && (
-            <SignInPassword onDone={signUpComplete} />
-          )}
-          {formStep !== SignInFormSteps.EMAIL && (
-            <BackButton onClick={() => setFormStep(SignInFormSteps.EMAIL)} />
-          )}
-
-          <VerificationSwitcher
-            formStep={formStep}
-            onSwitchVerificationMethod={setFormStep}
-          />
           <div className="relative mt-10">
             <div
               className="absolute inset-0 flex items-center"
@@ -206,23 +162,15 @@ export function SignInForm() {
             </div>
             <div className="relative flex justify-center text-sm font-medium leading-6">
               <span className="bg-white px-6 text-gray-900">
-                Or continue with
+                Or sign up with
               </span>
             </div>
           </div>
           <div className="mt-6 grid grid-cols-2 gap-4">
             <button
-              onClick={() => signInGoogle("oauth_google")}
+              onClick={() => signUpGoogle("oauth_google")}
               className="flex w-full items-center justify-center gap-3 rounded-md border-gray-300 border px-3 py-1.5 text-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1D9BF0]"
             >
-              {/* <svg
-              className="h-5 w-5"
-              aria-hidden="true"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
-              <path d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84" />
-            </svg> */}
               <svg
                 className="h-5 w-5"
                 aria-hidden="true"
@@ -271,32 +219,17 @@ export function SignInForm() {
             </button>
           </div>
         </div>
+
         <p className="mt-10 text-center text-sm text-gray-500">
-          Don&apos;t have an account?{" "}
+          Already have an account?{" "}
           <Link
-            href="/sign-up"
+            href="/sign-in"
             className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
           >
-            Sign up
+            Sign in
           </Link>
         </p>
       </div>
-    </div>
-  );
-}
-
-type BackButtonProps = { onClick: () => void };
-
-function BackButton({ onClick }: BackButtonProps): JSX.Element {
-  return (
-    <div className="mt-6 ">
-      <button
-        type="submit"
-        onClick={onClick}
-        className="flex w-full justify-center rounded-md border-indigo-600 border bg-white px-3 py-1.5 text-sm font-semibold leading-6 text-indigo-500 shadow-sm hover:bg-indigo-500 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-      >
-        <span className="text-sm font-semibold leading-6">Back</span>
-      </button>
     </div>
   );
 }
